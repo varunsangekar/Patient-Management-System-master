@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="../../../static/Footer/css/Article-List.css">
+    <link rel="stylesheet" href="../../../static/Footer/css/Footer-Dark.css">
+    <link rel="stylesheet" href="../../../static/Footer/css/styles.css">
+
+    <style>
+        /* Add custom CSS for the footer background color */
+        .footer-dark {
+            background-color: #343a40; /* Dark gray background color */
+            color: #fff; /* White text color */
+        }
+    </style>
+</head>
+
+<body>
+    <div th:fragment="footer">
+        <div class="footer-dark">
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3 item">
+                            <h3>Services</h3>
+                            <ul>
+                                <li><a th:href="@{/footer/api}">API</a></li>
+                                <li><a th:href="@{/footer/pharmacy}">Pharmacy</a></li>
+                                <li><a th:href="@{/footer/emergency}">Emergency Care</a></li>
+                                <li><a th:href="@{/footer/nursing}">Nursing</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 col-md-3 item">
+                            <h3>About</h3>
+                            <ul>
+                                <li><a th:href="@{/Home/home-page}">Patient Management</a></li>
+                                <li><a th:href="@{/footer/team}">Our Team</a></li>
+                                <li><a th:href="@{/footer/career}">Careers</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 item text">
+                            <h3>Patient Management</h3>
+                            <p>Currently, hospitals are largely staffed by professional physicians, surgeons, nurses, and
+                                allied health practitioners, whereas in the past, this work was usually performed by the
+                                members of founding religious orders or by volunteers</p>
+                        </div>
+                        <div class="col item social">
+                            <a href="https://www.facebook.com/">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.twitter.com/">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.snapchat.com/">
+                                <i class="fab fa-snapchat-ghost"></i>
+                            </a>
+                            <a href="https://www.instagram.com/">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="copyright">Patient Management © 2017</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

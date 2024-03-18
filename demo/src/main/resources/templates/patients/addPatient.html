@@ -1,0 +1,225 @@
+ <!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/Footer/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Footer/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/Footer/css/Article-List.css">
+    <link rel="stylesheet" href="/Footer/css/Footer-Dark.css">
+    <link rel="stylesheet" href="/Footer/css/styles.css">
+    <link rel="stylesheet" href="/nav-bar/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/nav-bar/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="/nav-bar/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="/nav-bar/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/nav-bar/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/nav-bar/css/styles.css">
+    <link rel="stylesheet" href="/nav-bar/css/Team-Boxed.css">
+    <title>Save Patient</title>
+    <style>
+        .form-row [class^="col-"] {
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+        
+        .patient-content {
+            border: 1px solid #ccc; /* Add border style */
+            padding: 20px; /* Add padding for better spacing */
+            border-radius: 10px; /* Add border radius for rounded corners */
+        }
+        
+        /* Style for buttons outside patient content */
+        .btn-history {
+            background-color: #007bff; /* Blue */
+            border-color: #007bff; /* Blue */
+            margin-right: 10px; /* Add right margin */
+        }
+
+        .btn-prescription {
+            background-color: #28a745; /* Green */
+            border-color: #28a745; /* Green */
+            margin-right: 10px; /* Add right margin */
+        }
+
+        .btn-tablet {
+            background-color: #ffc107; /* Yellow */
+            border-color: #ffc107; /* Yellow */
+            margin-right: 10px; /* Add right margin */
+        }
+
+        .btn-history:hover, .btn-prescription:hover, .btn-tablet:hover {
+            opacity: 0.8; /* Reduce opacity on hover */
+        }
+
+        /* Style for Back to Patient List button */
+        .btn-back-to-list {
+            background-color: #dc3545; /* Red */
+            border-color: #dc3545; /* Red */
+            color: #fff; /* White text color */
+            margin-left: 10px; /* Add left margin */
+        }
+
+        .btn-back-to-list:hover {
+            opacity: 0.8; /* Reduce opacity on hover */
+        }
+    </style>
+</head>
+
+<body>
+
+<div th:replace="fragments/nav-bar/nav-bar :: nav"></div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="patient-content">
+                <form action="#" th:action="@{/patients/save}" th:object="${patient}" method="POST">
+                    <input type="hidden" th:field="*{id}" />
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <h5>Patient Full Name</h5>
+                            <input type="text" th:field="*{name}" class="form-control mb-4" placeholder="Patient name">
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Parent/Guardian </h5>
+                            <input type="text" th:field="*{fatherName}" class="form-control mb-4" placeholder="Father name">
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Gender</h5>
+                            <select th:field="*{gender}" class="form-control mb-4" placeholder="Gender">
+                                <option th:value="'Male'" th:text="Male"></option>
+                                <option th:value="'Female'" th:text="Female"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Identification</h5>
+                            <input type="text" th:field="*{CNIC}" class="form-control mb-4" placeholder="CNIC">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <h5>Date of Birth</h5>
+                            <input type="date" th:field="${patient.dateOfBirth}" class="form-control mb-4"
+                                   placeholder="Date Of Birth">
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Medical History</h5>
+                            <input type="text" th:field="*{diseaseHistory}" class="form-control mb-4"
+                                   placeholder="Disease History" id="medicalHistory">
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Prescription</h5>
+                            <input type="text" th:field="*{prescription}" class="form-control mb-4"
+                                   placeholder="Prescription" id="prescription">
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Assigned Doctor</h5>
+                            <select th:field="*{doctor}" class="form-control mb-4" placeholder="Select Doctor">
+                                <option th:each="tempDoctor : ${doctorList}" th:value="${tempDoctor.id}"
+                                        th:text="${tempDoctor.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info">Save</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-history" onclick="loadHistory()"> History </button>
+                <button type="button" class="btn btn-prescription" onclick="loadPrescription()">Prescription</button>
+                <button type="button" class="btn btn-tablet" onclick="loadTablet()">Tablet</button>
+                <button class="btn btn-back-to-list ml-2"><a th:href="@{/patients/list}" style="color: white;">Back to Patient List</a></button> <!-- Added color and margin-left -->
+            </div>
+            <div id="historyContent" style="margin-top: 20px;"></div>
+            <div id="prescriptionContent" style="margin-top: 20px;"></div>
+            <div id="tabletContent" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/Footer/Footer :: footer"></div>
+
+<script>
+    function loadHistory() {
+        // Retrieve existing medical history
+        var medicalHistory = document.getElementById("medicalHistory").value;
+
+        // Create an editable input field for medical history
+        var historyContent = "<h5> History </h5>";
+        historyContent += "<input type='text' id='editedHistory' style='width: 100%; height: 100px; margin-bottom: 10px;' value='" + medicalHistory + "'>";
+        historyContent += "<button type='button' class='btn btn-success mt-2' onclick='saveEditedHistory()'>Save</button>";
+
+        document.getElementById("historyContent").innerHTML = historyContent;
+    }
+
+    function saveEditedHistory() {
+        // Retrieve the edited medical history
+        var editedHistory = document.getElementById("editedHistory").value;
+
+        // Update the original medical history input field
+        document.getElementById("medicalHistory").value = editedHistory;
+
+        // Close the history content area
+        document.getElementById("historyContent").innerHTML = "";
+    }
+
+    function loadPrescription() {
+        // Retrieve existing prescription
+        var prescription = document.getElementById("prescription").value;
+
+        // Create an editable input field for prescription
+        var prescriptionContent = "<h5> Prescription </h5>";
+        prescriptionContent += "<input type='text' id='editedPrescription' style='width: 100%; height: 100px; margin-bottom: 10px;' value='" + prescription + "'>";
+        prescriptionContent += "<button type='button' class='btn btn-success mt-2' onclick='saveEditedPrescription()'>Save</button>";
+
+        document.getElementById("prescriptionContent").innerHTML = prescriptionContent;
+    }
+
+    function saveEditedPrescription() {
+        // Retrieve the edited prescription
+        var editedPrescription = document.getElementById("editedPrescription").value;
+
+        // Update the original prescription input field
+        document.getElementById("prescription").value = editedPrescription;
+
+        // Close the prescription content area
+        document.getElementById("prescriptionContent").innerHTML = "";
+    }
+
+    function loadTablet() {
+        // Retrieve existing tablet details
+        var tabletDetails = document.getElementById("tabletDetails").value;
+
+        // Create an editable input field for tablet details
+        var tabletContent = "<h5> Tablet Details </h5>";
+        tabletContent += "<input type='text' id='editedTabletDetails' style='width: 100%; height: 100px; margin-bottom: 10px;' value='" + tabletDetails + "'>";
+        tabletContent += "<button type='button' class='btn btn-success mt-2' onclick='saveEditedTabletDetails()'>Save</button>";
+
+        document.getElementById("tabletContent").innerHTML = tabletContent;
+    }
+
+    function saveEditedTabletDetails() {
+        // Retrieve the edited tablet details
+        var editedTabletDetails = document.getElementById("editedTabletDetails").value;
+
+        // Update the original tablet details input field
+        document.getElementById("tabletDetails").value = editedTabletDetails;
+
+        // Close the tablet details content area
+        document.getElementById("tabletContent").innerHTML = "";
+    }
+</script>
+
+</body>
+
+</html>
